@@ -16,8 +16,17 @@ contract NFT5484Test is Test {
         assertEq(nft.permissionedIssuer(address(0)), true);
     }
 
-    // function testSetNumber(uint256 x) public {
-    //     counter.setNumber(x);
-    //     assertEq(counter.number(), x);
-    // }
+    function testFailSetIssuer() public {
+        vm.prank(address(1));
+        nft.setIssuer(address(0));
+    }
+
+    function testFullLineOnce() public {
+        nft.setIssuer(address(0));
+        // nft.setIssuer(address(this));
+        vm.startPrank(address(0));
+        nft.setToken(0, address(2),1);
+        vm.stopPrank();
+        
+    }
 }
