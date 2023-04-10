@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 import "./IERC5484.sol";
+import "forge-std/console.sol";
 
 contract NFT5484 is ERC721, IERC5484 {
     address public owner;
@@ -42,6 +43,7 @@ contract NFT5484 is ERC721, IERC5484 {
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {
         owner = msg.sender;
+        console.log("yes i print");
     }
 
     function setIssuer(address _x) external onlyOwner {
