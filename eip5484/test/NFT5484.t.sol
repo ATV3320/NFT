@@ -33,4 +33,18 @@ contract NFT5484Test is Test {
         assertEq(nft.ownerOf(0), address(2));
         nft.burn(0);
     }
+    function testFailToBurn() public {
+        nft.setIssuer(address(0));
+        // nft.setIssuer(address(this));
+        vm.startPrank(address(0));
+        nft.setToken(0, address(2),IERC5484.BurnAuth.OwnerOnly);
+        vm.stopPrank();
+        vm.startPrank(address(2));
+        nft.mint(0);
+        vm.stopPrank();
+        assertEq(nft.ownerOf(0), address(2));
+        vm.prank(address(4));
+        nft.burn(0);
+    }
+
 }

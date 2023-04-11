@@ -118,7 +118,7 @@ contract NFT5484 is ERC721, IERC5484 {
             _burn(_tokenId);
         }
         else{
-            revert("not burnable");
+            revert("can't burnable");
         }
     }
 }
