@@ -43,7 +43,6 @@ contract NFT5484 is ERC721, IERC5484 {
 
     constructor(string memory name, string memory symbol) ERC721(name, symbol) {
         owner = msg.sender;
-        console.log("yes i print");
     }
 
     function setIssuer(address _x) external onlyOwner {
@@ -104,5 +103,22 @@ contract NFT5484 is ERC721, IERC5484 {
         returns (BurnAuth)
     {
         return idToData[tokenId].burnAuth;
+    }
+
+    function burn(uint _tokenId) external {
+        require(_exists(_tokenId),"id doesnt exist");
+        BurnAuth x = idToData[_tokenId].burnAuth;
+        if(x==IERC5484.BurnAuth.IssuerOnly&&msg.sender==idToData[_tokenId].issuer){
+            _burn(_tokenId);
+        }
+        else if(x==IERC5484.BurnAuth.OwnerOnly&&msg.sender==owner){
+            _burn(_tokenId);
+        }
+        else if(x==IERC5484.BurnAuth.Both&&(msg.sender==owner || msg.sender == idToData[_tokenId].issuer)){
+            _burn(_tokenId);
+        }
+        else{
+            revert("not burnable");
+        }
     }
 }
